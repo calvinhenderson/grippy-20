@@ -1,0 +1,13 @@
+file_format: "1"
+id: grippy_20
+name: Grippy 20
+type: shield
+url: https://github.com/calvinhenderson/grippy-20
+requires:
+  - xiao_d
+exposes: []
+features:
+  - keys
+siblings:
+  - grippy_20_left
+  - grippy_20_right

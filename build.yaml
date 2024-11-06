@@ -18,7 +18,7 @@
 #
 ---
 include:
-  - board: seeeduino_xiao_ble
-    shield: splitkb_aurora_sweep_left
-  - board: seeeduino_xiao_ble
-    shield: splitkb_aurora_sweep_right
+  - board: xiao_esp32c3
+    shield: grippy_20
+  - board: xiao_esp32c3
+    shield: grippy_20

@@ -1,0 +1,3 @@
+&default_transform { // Offset of 4 because the left side has 4 columns
+    col-offset = <4>;
+};
