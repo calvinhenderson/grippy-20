@@ -19,6 +19,6 @@
 ---
 include:
   - board: xiao_esp32c3
-    shield: grippy_20
+    shield: grippy_20_left
   - board: xiao_esp32c3
-    shield: grippy_20
+    shield: grippy_20_right
