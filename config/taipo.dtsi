@@ -4,48 +4,56 @@ combo_l_##NAME { \
 	bindings = <BINDINGS>; \
 	key-positions = <LEFT_KEYPOS>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_li_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <INNER_BINDINGS>; \
 	key-positions = <LEFT_KEYPOS LIT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_lo_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <OUTER_BINDINGS>; \
 	key-positions = <LEFT_KEYPOS LOT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_lb_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <BOTH_BINDINGS>; \
 	key-positions = <LEFT_KEYPOS LIT LOT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_r_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <BINDINGS>; \
 	key-positions = <RIGHT_KEYPOS>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_ri_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <INNER_BINDINGS>; \
 	key-positions = <RIGHT_KEYPOS RIT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_ro_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <OUTER_BINDINGS>; \
 	key-positions = <RIGHT_KEYPOS ROT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 }; \
 combo_rb_##NAME { \
 	timeout-ms = <COMBO_TIMEOUT>; \
 	bindings = <BOTH_BINDINGS>; \
 	key-positions = <RIGHT_KEYPOS RIT ROT>; \
 	layers = <COMBO_LAYERS>; \
+  slow-release; \
 };
 
 combo_l_space {
