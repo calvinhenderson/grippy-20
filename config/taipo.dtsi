@@ -48,32 +48,32 @@ combo_rb_##NAME { \
 	layers = <COMBO_LAYERS>; \
 };
 
-combo_l_space { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <&kp SPACE>; \
-	key-positions = <LOT>; \
-	layers = <COMBO_LAYERS>; \
+combo_l_space {
+	timeout-ms = <COMBO_TIMEOUT>;
+	bindings = <&kp SPACE>;
+	key-positions = <LOT>;
+	layers = <COMBO_LAYERS>;
 };
 
-combo_r_space { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <&kp SPACE>; \
-	key-positions = <ROT>; \
-	layers = <COMBO_LAYERS>; \
+combo_r_space {
+	timeout-ms = <COMBO_TIMEOUT>;
+	bindings = <&kp SPACE>;
+	key-positions = <ROT>;
+	layers = <COMBO_LAYERS>;
 };
 
-combo_l_bspc { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <&kp BSPC>; \
-	key-positions = <LIT>; \
-	layers = <COMBO_LAYERS>; \
+combo_l_bspc {
+	timeout-ms = <COMBO_TIMEOUT>;
+	bindings = <&kp BSPC>;
+	key-positions = <LIT>;
+	layers = <COMBO_LAYERS>;
 };
 
-combo_r_bspc { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <&kp BSPC>; \
-	key-positions = <RIT>; \
-	layers = <COMBO_LAYERS>; \
+combo_r_bspc {
+	timeout-ms = <COMBO_TIMEOUT>;
+	bindings = <&kp BSPC>;
+	key-positions = <RIT>;
+	layers = <COMBO_LAYERS>;
 };
 
 TCOMBO(R,      &kp R,      &kp LS(R), &kp GT,     &kp PSCRN,    TLP,         TRP)
