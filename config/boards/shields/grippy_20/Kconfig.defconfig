@@ -7,14 +7,14 @@ if SHIELD_GRIPPY_20_LEFT
     config ZMK_SPLIT_ROLE_CENTRAL
         default y
 
+    config ZMK_USB
+        default y
+
     endif
 
 if SHIELD_GRIPPY_20_LEFT || SHIELD_GRIPPY_20_RIGHT
 
     config ZMK_BLE
-        default y
-
-    config ZMK_USB
         default y
 
     config ZMK_SPLIT
