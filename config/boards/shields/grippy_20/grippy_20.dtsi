@@ -1,10 +1,14 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
+  model = "Seeed XIAO BLE";
+  compatible = "seeed,xiao-ble", "seeed,xiao-ble-sense";
+
   chosen {
     zmk,kscan = &kscan0;
     zmk,matrix_transform = &default_transform;
-    zephyr,flash = &flash0;
+    zmk,flash = &flash0;
+    zmk,battery = &xiao_battery_voltage_divider;
   };
 
   kscan0: kscan0 {
@@ -20,9 +24,9 @@
       ;
 
     row-gpios
-      = <&xiao_d  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-      , <&xiao_d  5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-      , <&xiao_d  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+      = <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+      , <&xiao_d  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+      , <&xiao_d  8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
       ;
 
   };
@@ -37,4 +41,18 @@
       /*           */ RC(2,2) RC(2,3)    RC(2,7) RC(2,6)
     >;
   };
+
+  xiao_battery_voltage_divider: vbatt {
+	  status = "okay";
+	  compatible = "zmk,battery-voltage-divider";
+	  label = "XIAO voltage divider";
+	  io-channels = <&adc 7>;
+	  output-ohms = <470000>;
+	  full-ohms =  <1470000>;
+	  power-gpios = <&gpio0 14 (GPIO_ACTIVE_LOW)>;
+  };
+};
+
+&usbd {
+	status = "okay";
 };

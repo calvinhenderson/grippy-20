@@ -18,7 +18,11 @@
 #
 ---
 include:
-  - board: xiao_esp32c3
+  - board: seeeduino_xiao_ble
     shield: grippy_20_left
-  - board: xiao_esp32c3
+    snippet: zmk-usb-logging
+  - board: seeeduino_xiao_ble
     shield: grippy_20_right
+    snippet: zmk-usb-logging
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
