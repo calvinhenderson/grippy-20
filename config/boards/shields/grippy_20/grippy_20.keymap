@@ -105,10 +105,10 @@ combo_rb_##NAME { \
 	    layers = <COMBO_LAYERS>;
     };
 
-    combo_r_space {
+    combo_l_bspc {
 	    timeout-ms = <COMBO_TIMEOUT>;
 	    bindings = <&kp BSPC>;
-	    key-positions = <ROT>;
+	    key-positions = <LIT>;
 	    layers = <COMBO_LAYERS>;
     };
 
