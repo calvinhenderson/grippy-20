@@ -105,7 +105,7 @@ combo_rb_##NAME { \
 	    layers = <COMBO_LAYERS>;
     };
 
-    combo_l_space {
+    combo_r_space {
 	    timeout-ms = <COMBO_TIMEOUT>;
 	    bindings = <&kp BSPC>;
 	    key-positions = <ROT>;
