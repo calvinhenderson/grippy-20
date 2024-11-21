@@ -105,10 +105,10 @@ combo_rb_##NAME { \
 	    layers = <COMBO_LAYERS>;
     };
 
-    combo_l_bspc {
+    combo_l_space {
 	    timeout-ms = <COMBO_TIMEOUT>;
 	    bindings = <&kp BSPC>;
-	    key-positions = <LIT>;
+	    key-positions = <ROT>;
 	    layers = <COMBO_LAYERS>;
     };
 
@@ -118,7 +118,7 @@ combo_rb_##NAME { \
 	    key-positions = <RIT>;
 	    layers = <COMBO_LAYERS>;
     };
-
+    
     TCOMBO(R,      &kp R,      &kp LS(R), &kp GT,     &kp PSCRN,    TLP,         TRP)
     TCOMBO(S,      &kp S,      &kp LS(S), &kp RBRC,   &kp C_BRI_UP, TLR,         TRR)
     TCOMBO(N,      &kp N,      &kp LS(N), &kp RBKT,   &kp C_BRI_DN, TLM,         TRM)
