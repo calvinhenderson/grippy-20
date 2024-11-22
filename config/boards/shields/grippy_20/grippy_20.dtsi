@@ -5,7 +5,7 @@
     zmk,kscan = &kscan0;
     zmk,matrix_transform = &default_transform;
     zmk,flash = &flash0;
-    zmk,battery = &xiao_battery_voltage_divider;
+    zmk,battery = &vbatt;
   };
 
   kscan0: kscan0 {
@@ -39,15 +39,9 @@
     >;
   };
 
-  xiao_battery_voltage_divider: vbatt {
-	  status = "okay";
-	  compatible = "zmk,battery-voltage-divider";
-	  label = "XIAO voltage divider";
-	  io-channels = <&adc 7>;
-	  output-ohms = <470000>;
-	  full-ohms =  <1470000>;
-	  power-gpios = <&gpio0 14 (GPIO_ACTIVE_LOW)>;
-  };
+  vbatt: vbatt {
+	  compatible = "zmk,battery-nrf-vddh";
+	};
 };
 
 &usbd {
