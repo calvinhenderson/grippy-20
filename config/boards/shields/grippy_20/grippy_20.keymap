@@ -3,11 +3,14 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
+// LAYERS
+#define MACOS       0
+#define LINUX       1
+#define DEFAULT MACOS
+
 // CONFIG
-#define COMBO_LAYERS      0
 #define COMBO_TIMEOUT    80
-#define STICKY_TIMEOUT  500
-#define TAPPING_TIMEOUT 500
+#define STICKY_TIMEOUT 2000
 
 // LEFT SIDE
 #define TLI  3 // TOP
@@ -32,6 +35,15 @@
 #define BRP 15 // BOTTOM
 #define ROT 18 // O-THUMB
 #define RIT 19 // I-THUMB
+
+#define LAYER(NAME) \
+NAME##_layer { \
+  bindings = < \
+    &none &none &none &none    &none &none &none &none \
+    &none &none &none &none    &none &none &none &none \
+    /*       */ &none &none    &none &none \
+  >; \
+};
 
 #define TCOMBO(NAME, BINDINGS, OUTER_BINDINGS, INNER_BINDINGS, BOTH_BINDINGS, LEFT_KEYPOS, RIGHT_KEYPOS) \
 combo_l_##NAME { \
@@ -91,66 +103,58 @@ combo_rb_##NAME { \
       quick-release;
       ignore-modifiers;
     };
+  };
 
-    td_lgui: tap_dance_lgui {
-      compatible = "zmk,behavior-tap-dance";
+  macros {
+    // MACROS TO SET THE OS LAYER WITH THE BLUETOOTH PROFILE
+    bt_profile_0: bt_profile_0 {
+      compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      tapping-term-ms = <TAPPING_TIMEOUT>;
-      bindings = <&sk LGUI>, <&kt LGUI>;
+      bindings = <&macro_tap &bt BT_SEL 0>, <&macro_tap &to DEFAULT>;
     };
 
-    td_lalt: tap_dance_lalt {
-      compatible = "zmk,behavior-tap-dance";
+    bt_profile_1: bt_profile_1 {
+      compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      tapping-term-ms = <TAPPING_TIMEOUT>;
-      bindings = <&sk LALT>, <&kt LALT>;
+      bindings = <&macro_tap &bt BT_SEL 1>, <&macro_tap &to LINUX>;
     };
 
-    td_lctl: tap_dance_lctl {
-      compatible = "zmk,behavior-tap-dance";
+    bt_profile_2: bt_profile_2 {
+      compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      tapping-term-ms = <TAPPING_TIMEOUT>;
-      bindings = <&sk LCTRL>, <&kt LCTRL>;
+      bindings = <&macro_tap &bt BT_SEL 2>, <&macro_tap &to DEFAULT>;
     };
 
-    td_lsft: tap_dance_lsft {
-      compatible = "zmk,behavior-tap-dance";
+    bt_profile_3: bt_profile_3 {
+      compatible = "zmk,behavior-macro";
       #binding-cells = <0>;
-      tapping-term-ms = <TAPPING_TIMEOUT>;
-      bindings = <&sk LSHIFT>, <&kt LSHIFT>;
+      bindings = <&macro_tap &bt BT_SEL 3>, <&macro_tap &to DEFAULT>;
     };
   };
 
   combos {
     compatible = "zmk,combos";
 
-    combo_l_space {
-	    timeout-ms = <COMBO_TIMEOUT>;
-	    bindings = <&kp SPACE>;
-	    key-positions = <LOT>;
-	    layers = <COMBO_LAYERS>;
+    // ==========================================
+    // GLOBAL COMBOS - NOT DEPENDENT TO ANY LAYER
+
+    #undef COMBO_LAYERS
+    #define COMBO_LAYERS MACOS LINUX
+
+    #define THUMB(NAME, BINDINGS, KEYS) \
+    combo_##NAME { \
+	    timeout-ms = <COMBO_TIMEOUT>; \
+	    bindings = <BINDINGS>; \
+	    key-positions = <KEYS>; \
+	    layers = <COMBO_LAYERS>; \
     };
 
-    combo_r_space {
-	    timeout-ms = <COMBO_TIMEOUT>;
-	    bindings = <&kp SPACE>;
-	    key-positions = <ROT>;
-	    layers = <COMBO_LAYERS>;
-    };
+    THUMB(l_bspc,  &kp BSPC,  LIT)
+    THUMB(l_space, &kp SPACE, LOT)
+    THUMB(r_bspc,  &kp BSPC,  RIT)
+    THUMB(r_space, &kp SPACE, ROT)
 
-    combo_l_bspc {
-	    timeout-ms = <COMBO_TIMEOUT>;
-	    bindings = <&kp BSPC>;
-	    key-positions = <LIT>;
-	    layers = <COMBO_LAYERS>;
-    };
-
-    combo_r_bspc {
-	    timeout-ms = <COMBO_TIMEOUT>;
-	    bindings = <&kp BSPC>;
-	    key-positions = <RIT>;
-	    layers = <COMBO_LAYERS>;
-    };
+    #define HYPER LS(LC(LA(LGUI)))
 
     TCOMBO(R,      &kp R,         &kp LS(R),      &kp GT,       &kp C_NEXT,      TLP,         TRP)
     TCOMBO(S,      &kp S,         &kp LS(S),      &kp RBRC,     &kp C_BRI_UP,    TLR,         TRR)
@@ -172,37 +176,58 @@ combo_rb_##NAME { \
     TCOMBO(H,      &kp H,         &kp LS(H),      &kp N0,       &kp F10,         BLM BLI,     BRM BRI)
     TCOMBO(D,      &kp D,         &kp LS(D),      &kp AT,       &kp F11,         BLP BLI,     BRP BRI)
     TCOMBO(G,      &kp G,         &kp LS(G),      &kp HASH,     &kp F12,         TLP TLI,     TRP TRI)
-    TCOMBO(X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LC(X),       TLP BLM,     TRP BRM)
-    TCOMBO(K,      &kp K,         &kp LS(K),      &kp PLUS,     &kp LC(C),       TLI BLR,     TRI BRR)
-    TCOMBO(V,      &kp V,         &kp LS(V),      &kp STAR,     &kp LC(V),       TLR BLI,     TRR BRI)
-    TCOMBO(J,      &kp J,         &kp LS(J),      &kp EQUAL,    &kp LC(Z),       TLM BLP,     TRM BRP)
-    TCOMBO(M,      &kp M,         &kp LS(M),      &kp DOLLAR,   &kp K_LOCK,      TLP BLI,     TRP BRI)
     TCOMBO(W,      &kp W,         &kp LS(W),      &kp AMPS,     &none,           TLI BLP,     TRI BRP)
-    TCOMBO(SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp K_REDO,      TLR BLM,     TRR BRM)
-    TCOMBO(MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp K_UNDO,      TLM BLR,     TRM BRR)
-    TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &none,           TLI BLM,     TRI BRM)
-    TCOMBO(COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &none,           TLM BLI,     TRM BRI)
+    TCOMBO(J,      &kp J,         &kp LS(J),      &kp EQUAL,    &none,           TLM BLP,     TRM BRP)
+    TCOMBO(M,      &kp M,         &kp LS(M),      &kp DOLLAR,   &none,           TLP BLI,     TRP BRI)
+    TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &sk HYPER,       TLI BLM,     TRI BRM)
+    TCOMBO(COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &sys_reset,      TLM BLI,     TRM BRI)
     TCOMBO(SEMI,   &kp SEMI,      &kp COLON,      &none,        &none,           TLP BLR,     TRP BRR)
-    TCOMBO(SEMI2,  &kp SEMI,      &kp COLON,      &none,        &none,           BLR TLM BLI, BRR TRM BRI)
     TCOMBO(SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &none,           TLR BLP,     TRR BRP)
     TCOMBO(TAB,    &kp TAB,       &kp DEL,        &kp INS,      &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
     TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &kp LALT,     &bootloader,     BLR BLM BLI, BRR BRM BRI)
-    TCOMBO(LGUI,   &td_lsft,      &kp RIGHT,      &kp PGUP,     &bt BT_SEL 3,    TLP BLP,     TRP BRP)
-    TCOMBO(LALT,   &td_lalt,      &kp UP,         &kp HOME,     &bt BT_SEL 2,    TLR BLR,     TRR BRR)
-    TCOMBO(LCTRL,  &td_lctl,      &kp DOWN,       &kp END,      &bt BT_SEL 1,    TLM BLM,     TRM BRM)
-    TCOMBO(LSHIFT, &td_lgui,      &kp LEFT,       &kp PGDN,     &bt BT_SEL 0,    TLI BLI,     TRI BRI)
-    TCOMBO(XCP,    &kp C_AC_COPY, &kp C_AC_PASTE, &kp C_AC_CUT, &none,           BLR TLM TLI, BRR TRM TRI)
+    TCOMBO(LSHIFT, &sk LSHIFT,    &kp RIGHT,      &kp END,      &bt_profile_3,   TLP BLP,     TRP BRP)
+    TCOMBO(LALT,   &sk LALT,      &kp UP,         &kp PGUP,     &bt_profile_2,   TLR BLR,     TRR BRR)
+    TCOMBO(LCTRL,  &sk LCTRL,     &kp DOWN,       &kp PGDN,     &bt_profile_1,   TLM BLM,     TRM BRM)
+    TCOMBO(LGUI,   &sk LGUI,      &kp LEFT,       &kp HOME,     &bt_profile_0,   TLI BLI,     TRI BRI)
+    TCOMBO(TGLSFT, &kt LSHIFT,    &none,          &none,        &none,           TLP BLP BLI, TRP BRP BRI)
+    TCOMBO(TGLALT, &kt LALT,      &none,          &none,        &none,           TLR BLR BLP, TRR BRR BRP)
+    TCOMBO(TGLCTL, &kt LCTRL,     &none,          &none,        &none,           TLM BLM BLP, TRM BRM BRP)
+    TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &none,           TLI BLI BLP, TRI BRI BRP)
+
+    // =====================================
+    // OS-DEPENDENT HANDLING OF SPECIAL KEYS
+    // Allow combos of OS-specific shortucts
+
+    // Add the layer to the combo name to avoid duplicate names
+    #define LCOMBO(LAYER, NAME, ...) TCOMBO(LAYER##_##NAME, __VA_ARGS__)
+
+    #undef COMBO_LAYERS
+    #define COMBO_LAYERS MACOS
+
+    LCOMBO(MACOS, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LG(LS(Z)),   TLR BLM,     TRR BRM)
+    LCOMBO(MACOS, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LG(Z),       TLM BLR,     TRM BRR)
+    LCOMBO(MACOS, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LG(X),       TLP BLM,     TRP BRM)
+    LCOMBO(MACOS, K,      &kp K,         &kp LS(K),      &kp PLUS,     &kp LG(C),       TLI BLR,     TRI BRR)
+    LCOMBO(MACOS, V,      &kp V,         &kp LS(V),      &kp STAR,     &kp LG(V),       TLR BLI,     TRR BRI)
+
+    #undef COMBO_LAYERS
+    #define COMBO_LAYERS LINUX
+    LCOMBO(LINUX, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LC(LS(Z)),   TLR BLM,     TRR BRM)
+    LCOMBO(LINUX, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LC(Z),       TLM BLR,     TRM BRR)
+    LCOMBO(LINUX, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LC(X),       TLP BLM,     TRP BRM)
+    LCOMBO(LINUX, K,      &kp K,         &kp LS(K),      &kp PLUS,     &kp LC(C),       TLI BLR,     TRI BRR)
+    LCOMBO(LINUX, V,      &kp V,         &kp LS(V),      &kp STAR,     &kp LC(V),       TLR BLI,     TRR BRI)
   };
 
   keymap {
     compatible = "zmk,keymap";
 
-    default_layer {
-      bindings = <
-        &none &none &none &none    &none &none &none &none
-        &none &none &none &none    &none &none &none &none
-        /*       */ &none &none    &none &none
-      >;
-    };
+    // =========================
+    // DEFINE LAYERS FOR EACH OS
+    // The layers are all blank,
+    // so this is just to allow
+    // the layer combos above.
+
+    LAYER(MACOS) LAYER(LINUX)
   };
 };
