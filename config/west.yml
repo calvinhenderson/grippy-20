@@ -2,10 +2,13 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: calvinhenderson
+      url-base: https://github.com/calvinhenderson
   projects:
-    - name: zmk
-      remote: zmkfirmware
-      revision: main
+    - name: zmk-dynamic-macros
+      path: zmk
+      remote: calvinhenderson
+      revision: feat-dynamic-macros
       import: app/west.yml
   self:
     path: config

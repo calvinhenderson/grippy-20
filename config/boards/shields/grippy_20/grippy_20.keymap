@@ -1,5 +1,6 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/dynamic_macro.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
@@ -193,6 +194,8 @@ combo_rb_##NAME { \
     TCOMBO(TGLALT, &kt LALT,      &none,          &none,        &none,           TLR BLR BLP, TRR BRR BRP)
     TCOMBO(TGLCTL, &kt LCTRL,     &none,          &none,        &none,           TLM BLM BLP, TRM BRM BRP)
     TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &none,           TLI BLI BLP, TRI BRI BRP)
+    TCOMBO(DMREC0, &dm DM_PLY 0,  &dm DM_REC 0,   &dm DM_STP 0, &none,           TLP TLR TLM TLI, TRP TRR TRM TRI)
+    TCOMBO(DMREC1, &dm DM_PLY 1,  &dm DM_REC 1,   &dm DM_STP 1, &none,           BLP BLR BLM BLI, BRP BRR BRM BRI)
 
     // =====================================
     // OS-DEPENDENT HANDLING OF SPECIAL KEYS
