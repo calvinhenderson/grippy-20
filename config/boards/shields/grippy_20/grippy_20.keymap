@@ -10,7 +10,7 @@
 #define DEFAULT MACOS
 
 // CONFIG
-#define COMBO_TIMEOUT    80
+#define COMBO_TIMEOUT    30
 #define STICKY_TIMEOUT 2000
 
 // LEFT SIDE
@@ -155,6 +155,7 @@ combo_rb_##NAME { \
     THUMB(r_bspc,  &kp BSPC,  RIT)
     THUMB(r_space, &kp SPACE, ROT)
 
+    #define LKSCR LG(LC(Q))
     #define HYPER LS(LC(LA(LGUI)))
 
     TCOMBO(R,      &kp R,         &kp LS(R),      &kp GT,       &kp C_NEXT,      TLP,         TRP)
@@ -180,20 +181,18 @@ combo_rb_##NAME { \
     TCOMBO(W,      &kp W,         &kp LS(W),      &kp AMPS,     &none,           TLI BLP,     TRI BRP)
     TCOMBO(J,      &kp J,         &kp LS(J),      &kp EQUAL,    &none,           TLM BLP,     TRM BRP)
     TCOMBO(M,      &kp M,         &kp LS(M),      &kp DOLLAR,   &none,           TLP BLI,     TRP BRI)
-    TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &sk HYPER,       TLI BLM,     TRI BRM)
-    TCOMBO(COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &sys_reset,      TLM BLI,     TRM BRI)
+    TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &kp LKSCR,       TLI BLM,     TRI BRM)
     TCOMBO(SEMI,   &kp SEMI,      &kp COLON,      &none,        &none,           TLP BLR,     TRP BRR)
-    TCOMBO(SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &none,           TLR BLP,     TRR BRP)
-    TCOMBO(TAB,    &kp TAB,       &kp DEL,        &kp INS,      &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
-    TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &kp LALT,     &bootloader,     BLR BLM BLI, BRR BRM BRI)
+    TCOMBO(TAB,    &kp TAB,       &kp DEL,        &none,        &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
+    TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &sk HYPER,    &none,           BLR BLM BLI, BRR BRM BRI)
     TCOMBO(LSHIFT, &sk LSHIFT,    &kp RIGHT,      &kp END,      &bt_profile_3,   TLP BLP,     TRP BRP)
     TCOMBO(LALT,   &sk LALT,      &kp UP,         &kp PGUP,     &bt_profile_2,   TLR BLR,     TRR BRR)
     TCOMBO(LCTRL,  &sk LCTRL,     &kp DOWN,       &kp PGDN,     &bt_profile_1,   TLM BLM,     TRM BRM)
     TCOMBO(LGUI,   &sk LGUI,      &kp LEFT,       &kp HOME,     &bt_profile_0,   TLI BLI,     TRI BRI)
     TCOMBO(TGLSFT, &kt LSHIFT,    &none,          &none,        &none,           TLP BLP BLI, TRP BRP BRI)
     TCOMBO(TGLALT, &kt LALT,      &none,          &none,        &none,           TLR BLR BLP, TRR BRR BRP)
-    TCOMBO(TGLCTL, &kt LCTRL,     &none,          &none,        &none,           TLM BLM BLP, TRM BRM BRP)
-    TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &none,           TLI BLI BLP, TRI BRI BRP)
+    TCOMBO(TGLCTL, &kt LCTRL,     &none,          &none,        &bootloader,     TLM BLM BLP, TRM BRM BRP)
+    TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &sys_reset,      TLI BLI BLP, TRI BRI BRP)
     TCOMBO(DMREC0, &dm DM_PLY 0,  &dm DM_REC 0,   &dm DM_STP 0, &none,           TLP TLR TLM TLI, TRP TRR TRM TRI)
     TCOMBO(DMREC1, &dm DM_PLY 1,  &dm DM_REC 1,   &dm DM_STP 1, &none,           BLP BLR BLM BLI, BRP BRR BRM BRI)
 
@@ -207,6 +206,8 @@ combo_rb_##NAME { \
     #undef COMBO_LAYERS
     #define COMBO_LAYERS MACOS
 
+    LCOMBO(MACOS, COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &kp LC(LEFT),    TLM BLI,     TRM BRI)
+    LCOMBO(MACOS, SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &kp LC(RIGHT),   TLR BLP,     TRR BRP)
     LCOMBO(MACOS, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LG(LS(Z)),   TLR BLM,     TRR BRM)
     LCOMBO(MACOS, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LG(Z),       TLM BLR,     TRM BRR)
     LCOMBO(MACOS, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LG(X),       TLP BLM,     TRP BRM)
@@ -215,6 +216,8 @@ combo_rb_##NAME { \
 
     #undef COMBO_LAYERS
     #define COMBO_LAYERS LINUX
+    LCOMBO(LINUX, COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &kp LG(END),     TLM BLI,     TRM BRI)
+    LCOMBO(LINUX, SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &kp LG(HOME),    TLR BLP,     TRR BRP)
     LCOMBO(LINUX, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LC(LS(Z)),   TLR BLM,     TRR BRM)
     LCOMBO(LINUX, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LC(Z),       TLM BLR,     TRM BRR)
     LCOMBO(LINUX, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LC(X),       TLP BLM,     TRP BRM)
