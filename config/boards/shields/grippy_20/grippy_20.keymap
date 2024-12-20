@@ -10,8 +10,9 @@
 #define DEFAULT MACOS
 
 // CONFIG
-#define COMBO_TIMEOUT    30
-#define STICKY_TIMEOUT 2000
+#define COMBO_TIMEOUT      30
+#define STICKY_TIMEOUT   2000
+#define TAPPING_TERM_MS   200
 
 // LEFT SIDE
 #define TLI  3 // TOP
@@ -87,10 +88,6 @@ combo_rb_##NAME { \
 	layers = <COMBO_LAYERS>; \
 };
 
-&lt {
-  tapping-term-ms = <200>;
-};
-
 / {
   behaviors {
     sk: sticky_key {
@@ -98,6 +95,16 @@ combo_rb_##NAME { \
       release-after-ms = <STICKY_TIMEOUT>;
       quick-release;
       ignore-modifiers;
+    };
+
+    ht: hold_tap {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      flavor = "tap-preferred";
+      tapping-term-ms = <TAPPING_TERM_MS>;
+      quick-tap-ms = <TAPPING_TERM_MS>;
+      require-prior-idle-ms = <125>;
+      bindings = <&mo &kp>;
     };
   };
 
@@ -169,7 +176,6 @@ combo_rb_##NAME { \
     TCOMBO(SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &none,           TLR BLP,     TRR BRP)
     TCOMBO(SEMI,   &kp SEMI,      &kp COLON,      &none,        &none,           TLP BLR,     TRP BRR)
     TCOMBO(TAB,    &kp TAB,       &kp DEL,        &none,        &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
-    TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &sk HYPER,    &none,           BLR BLM BLI, BRR BRM BRI)
     TCOMBO(LSHIFT, &sk LSHIFT,    &kp RIGHT,      &kp END,      &bt_profile_3,   TLP BLP,     TRP BRP)
     TCOMBO(LALT,   &sk LALT,      &kp UP,         &kp PGUP,     &bt_profile_2,   TLR BLR,     TRR BRR)
     TCOMBO(LCTRL,  &sk LCTRL,     &kp DOWN,       &kp PGDN,     &bt_profile_1,   TLM BLM,     TRM BRM)
@@ -180,6 +186,10 @@ combo_rb_##NAME { \
     TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &sys_reset,      TLI BLI BLP, TRI BRI BRP)
     TCOMBO(DMREC0, &dm DM_PLY 0,  &dm DM_REC 0,   &dm DM_STP 0, &none,           TLP TLR TLM TLI, TRP TRR TRM TRI)
     TCOMBO(DMREC1, &dm DM_PLY 1,  &dm DM_REC 1,   &dm DM_STP 1, &none,           BLP BLR BLM BLI, BRP BRR BRM BRI)
+
+    #undef COMBO_LAYERS
+    #define COMBO_LAYERS 0 1 2 3 4
+    TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &sk HYPER,    &none,           BLR BLM BLI, BRR BRM BRI)
 
     // =====================================
     // OS-DEPENDENT HANDLING OF SPECIAL KEYS
@@ -210,33 +220,31 @@ combo_rb_##NAME { \
     compatible = "zmk,keymap";
 
     #define HYPR(K) LCS(LA(LG(K)))
+    #define IT(LAYER) &ht LAYER BSPC
+    #define OT(LAYER) &ht LAYER SPACE
 
-    #define ITHMB &lt 3 BSPC
-    #define OTHMB &lt 2 SPACE
     mac_layer {
       bindings = <
-        &none &none &none &none    &none &none &none &none
-        &none &none &none &none    &none &none &none &none
-        /*       */ ITHMB OTHMB    OTHMB ITHMB
+        &none &none &none  &none    &none  &none &none &none
+        &none &none &none  &none    &none  &none &none &none
+        /*       */ IT(3)  OT(2)    OT(2)  IT(3)
       >;
     };
 
-    #undef ITHMB
-    #define ITHMB &lt 4 BSPC
     linux_layer {
       bindings = <
-        &none &none &none &none    &none &none &none &none
-        &none &none &none &none    &none &none &none &none
-        /*       */ ITHMB OTHMB    OTHMB ITHMB
+        &none &none &none  &none    &none  &none &none &none
+        &none &none &none  &none    &none  &none &none &none
+        /*       */ IT(4)  OT(2)    OT(2)  IT(4)
       >;
     };
 
     navigation_layer {
       /* text navigation */
       bindings = <
-        &kp HOME &kp PGUP &kp PGDN &kp END        &kp HOME &kp PGDN &kp PGUP &kp END
-        &kp LEFT &kp UP   &kp DOWN &kp RIGHT      &kp LEFT &kp DOWN &kp UP   &kp RIGHT
-        /*             */ &none    &none          &none    &none
+        &kp HOME &kp PGUP &kp PGDN &kp END      &kp HOME &kp PGDN &kp PGUP &kp END
+        &kp LEFT &kp UP   &kp DOWN &kp RIGHT    &kp LEFT &kp DOWN &kp UP   &kp RIGHT
+        /*             */ &none    &none        &none    &none
       >;
     };
 
