@@ -4,7 +4,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
-// LAYERS
+// OS LAYERS
 #define MACOS       0
 #define LINUX       1
 #define DEFAULT MACOS
@@ -36,15 +36,6 @@
 #define BRP 15 // BOTTOM
 #define ROT 18 // O-THUMB
 #define RIT 19 // I-THUMB
-
-#define LAYER(NAME) \
-NAME##_layer { \
-  bindings = < \
-    &none &none &none &none    &none &none &none &none \
-    &none &none &none &none    &none &none &none &none \
-    /*       */ &none &none    &none &none \
-  >; \
-};
 
 #define TCOMBO(NAME, BINDINGS, OUTER_BINDINGS, INNER_BINDINGS, BOTH_BINDINGS, LEFT_KEYPOS, RIGHT_KEYPOS) \
 combo_l_##NAME { \
@@ -96,6 +87,10 @@ combo_rb_##NAME { \
 	layers = <COMBO_LAYERS>; \
 };
 
+&lt {
+  tapping-term-ms = <200>;
+};
+
 / {
   behaviors {
     sk: sticky_key {
@@ -142,21 +137,9 @@ combo_rb_##NAME { \
     #undef COMBO_LAYERS
     #define COMBO_LAYERS MACOS LINUX
 
-    #define THUMB(NAME, BINDINGS, KEYS) \
-    combo_##NAME { \
-	    timeout-ms = <COMBO_TIMEOUT>; \
-	    bindings = <BINDINGS>; \
-	    key-positions = <KEYS>; \
-	    layers = <COMBO_LAYERS>; \
-    };
-
-    THUMB(l_bspc,  &kp BSPC,  LIT)
-    THUMB(l_space, &kp SPACE, LOT)
-    THUMB(r_bspc,  &kp BSPC,  RIT)
-    THUMB(r_space, &kp SPACE, ROT)
-
+    #define LCS(K) LC(LS(K))
     #define LKSCR LG(LC(Q))
-    #define HYPER LS(LC(LA(LGUI)))
+    #define HYPER LCS(LA(LGUI))
 
     TCOMBO(R,      &kp R,         &kp LS(R),      &kp GT,       &kp C_NEXT,      TLP,         TRP)
     TCOMBO(S,      &kp S,         &kp LS(S),      &kp RBRC,     &kp C_BRI_UP,    TLR,         TRR)
@@ -182,6 +165,8 @@ combo_rb_##NAME { \
     TCOMBO(J,      &kp J,         &kp LS(J),      &kp EQUAL,    &none,           TLM BLP,     TRM BRP)
     TCOMBO(M,      &kp M,         &kp LS(M),      &kp DOLLAR,   &none,           TLP BLI,     TRP BRI)
     TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &kp LKSCR,       TLI BLM,     TRI BRM)
+    TCOMBO(COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &none,           TLM BLI,     TRM BRI)
+    TCOMBO(SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &none,           TLR BLP,     TRR BRP)
     TCOMBO(SEMI,   &kp SEMI,      &kp COLON,      &none,        &none,           TLP BLR,     TRP BRR)
     TCOMBO(TAB,    &kp TAB,       &kp DEL,        &none,        &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
     TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &sk HYPER,    &none,           BLR BLM BLI, BRR BRM BRI)
@@ -206,8 +191,6 @@ combo_rb_##NAME { \
     #undef COMBO_LAYERS
     #define COMBO_LAYERS MACOS
 
-    LCOMBO(MACOS, COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &kp LC(LEFT),    TLM BLI,     TRM BRI)
-    LCOMBO(MACOS, SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &kp LC(RIGHT),   TLR BLP,     TRR BRP)
     LCOMBO(MACOS, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LG(LS(Z)),   TLR BLM,     TRR BRM)
     LCOMBO(MACOS, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LG(Z),       TLM BLR,     TRM BRR)
     LCOMBO(MACOS, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LG(X),       TLP BLM,     TRP BRM)
@@ -216,8 +199,6 @@ combo_rb_##NAME { \
 
     #undef COMBO_LAYERS
     #define COMBO_LAYERS LINUX
-    LCOMBO(LINUX, COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &kp LG(END),     TLM BLI,     TRM BRI)
-    LCOMBO(LINUX, SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &kp LG(HOME),    TLR BLP,     TRR BRP)
     LCOMBO(LINUX, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LC(LS(Z)),   TLR BLM,     TRR BRM)
     LCOMBO(LINUX, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LC(Z),       TLM BLR,     TRM BRR)
     LCOMBO(LINUX, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LC(X),       TLP BLM,     TRP BRM)
@@ -228,12 +209,53 @@ combo_rb_##NAME { \
   keymap {
     compatible = "zmk,keymap";
 
-    // =========================
-    // DEFINE LAYERS FOR EACH OS
-    // The layers are all blank,
-    // so this is just to allow
-    // the layer combos above.
+    #define HYPR(K) LCS(LA(LG(K)))
 
-    LAYER(MACOS) LAYER(LINUX)
+    #define ITHMB &lt 3 BSPC
+    #define OTHMB &lt 2 SPACE
+    mac_layer {
+      bindings = <
+        &none &none &none &none    &none &none &none &none
+        &none &none &none &none    &none &none &none &none
+        /*       */ ITHMB OTHMB    OTHMB ITHMB
+      >;
+    };
+
+    #undef ITHMB
+    #define ITHMB &lt 4 BSPC
+    linux_layer {
+      bindings = <
+        &none &none &none &none    &none &none &none &none
+        &none &none &none &none    &none &none &none &none
+        /*       */ ITHMB OTHMB    OTHMB ITHMB
+      >;
+    };
+
+    navigation_layer {
+      /* text navigation */
+      bindings = <
+        &kp HOME &kp PGUP &kp PGDN &kp END        &kp HOME &kp PGDN &kp PGUP &kp END
+        &kp LEFT &kp UP   &kp DOWN &kp RIGHT      &kp LEFT &kp DOWN &kp UP   &kp RIGHT
+        /*             */ &none    &none          &none    &none
+      >;
+    };
+
+    mac_sys_layer {
+      /* defines macos-specific navigation keys */
+      bindings = <
+        &kp HYPR(4)  &kp HYPR(3)  &kp HYPR(2) &kp HYPR(1)      &kp HYPR(1)  &kp HYPR(2)  &kp HYPR(3)  &kp HYPR(4) 
+        &kp LC(LEFT) &kp LCS(TAB) &kp LC(TAB) &kp LC(RIGHT)    &kp LC(LEFT) &kp LCS(TAB) &kp LC(TAB)  &kp LC(RIGHT)
+        /*                     */ &none       &none            &none        &none
+      >;
+    };
+
+    linux_sys_layer {
+      /* defines linux-specific navigation keys */
+      bindings = <
+        &kp HYPR(4)  &kp HYPR(3)  &kp HYPR(2) &kp HYPR(1)      &kp HYPR(1)  &kp HYPR(2)  &kp HYPR(3)  &kp HYPR(4) 
+        &kp LG(HOME) &kp LCS(TAB) &kp LC(TAB) &kp LG(END)      &kp LG(HOME) &kp LCS(TAB) &kp LC(TAB)  &kp LG(END)
+        /*                     */ &none       &none            &none        &none
+      >;
+    };
   };
 };
