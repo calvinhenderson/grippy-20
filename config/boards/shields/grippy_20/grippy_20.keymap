@@ -10,9 +10,9 @@
 #define DEFAULT MACOS
 
 // CONFIG
-#define COMBO_TIMEOUT      30
+#define COMBO_TIMEOUT      20
 #define STICKY_TIMEOUT   2000
-#define TAPPING_TERM_MS   200
+#define TAPPING_TERM_MS   250
 
 // LEFT SIDE
 #define TLI  3 // TOP
