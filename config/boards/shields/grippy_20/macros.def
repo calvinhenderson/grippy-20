@@ -1,0 +1,41 @@
+#define MTAP(NAME, FIRST, BINDINGS) \
+  macro__S_##NAME: ms##NAME { \
+    compatible = "zmk,behavior-macro"; \
+    #binding-cells = <0>; \
+    bindings \
+      = <&macro_press &kp LSHFT> \
+      , <&macro_tap FIRST> \
+      , <&macro_release &kp LSHFT> \
+      , <&macro_tap BINDINGS>; \
+  }; \
+  macro__##NAME: m##NAME { \
+    compatible = "zmk,behavior-macro"; \
+    #binding-cells = <0>; \
+    bindings = <&macro_tap FIRST BINDINGS>; \
+  };
+
+// =========================
+// STENO-LITE CHORDED MACROS
+
+MTAP(AND,   &kp A, &kp N &kp D)
+MTAP(DONT,  &kp D, &kp O &kp N &kp QUOT &kp T)
+MTAP(EVERY, &kp E, &kp V &kp E &kp R &kp Y)
+MTAP(FOR,   &kp F, &kp O &kp R)
+MTAP(HAVE,  &kp H, &kp A &kp V &kp E)
+MTAP(HERE,  &kp H, &kp E &kp R &kp E)
+MTAP(ING,   &kp I, &kp N &kp G)
+MTAP(INTHE, &kp I, &kp N &kp SPACE &kp T &kp H &kp E)
+MTAP(ION,   &kp I, &kp O &kp N)
+MTAP(IONS,  &kp I, &kp O &kp N &kp S)
+MTAP(BOARD, &kp B, &kp O &kp A &kp R &kp D)
+MTAP(KEY,   &kp K, &kp E &kp Y)
+MTAP(MENT,  &kp M, &kp E &kp N &kp T)
+MTAP(OUGH,  &kp O, &kp U &kp G &kp H)
+MTAP(OULD,  &kp O, &kp U &kp L &kp D)
+MTAP(QUE,   &kp Q, &kp U &kp E)
+MTAP(THE,   &kp T, &kp H &kp E)
+MTAP(THIS,  &kp T, &kp H &kp I &kp S)
+MTAP(THAT,  &kp T, &kp H &kp A &kp T)
+MTAP(YOU,   &kp Y, &kp O &kp U)
+MTAP(WITH,  &kp W, &kp I &kp T &kp H)
+MTAP(WHAT,  &kp W, &kp H &kp A &kp T)

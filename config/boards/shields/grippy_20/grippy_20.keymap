@@ -7,11 +7,13 @@
 // OS LAYERS
 #define MACOS       0
 #define LINUX       1
+#define BASE    MACOS LINUX
 #define DEFAULT MACOS
 
 // CONFIG
-#define COMBO_TIMEOUT      20
-#define STICKY_TIMEOUT   2000
+#define COMBO_TIMEOUT      40
+#define CHORD_TIMEOUT      40
+#define STICKY_TIMEOUT   1500
 #define TAPPING_TERM_MS   250
 
 // LEFT SIDE
@@ -37,56 +39,6 @@
 #define BRP 15 // BOTTOM
 #define ROT 18 // O-THUMB
 #define RIT 19 // I-THUMB
-
-#define TCOMBO(NAME, BINDINGS, OUTER_BINDINGS, INNER_BINDINGS, BOTH_BINDINGS, LEFT_KEYPOS, RIGHT_KEYPOS) \
-combo_l_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <BINDINGS>; \
-	key-positions = <LEFT_KEYPOS>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_li_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <INNER_BINDINGS>; \
-	key-positions = <LEFT_KEYPOS LIT>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_lo_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <OUTER_BINDINGS>; \
-	key-positions = <LEFT_KEYPOS LOT>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_lb_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <BOTH_BINDINGS>; \
-	key-positions = <LEFT_KEYPOS LIT LOT>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_r_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <BINDINGS>; \
-	key-positions = <RIGHT_KEYPOS>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_ri_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <INNER_BINDINGS>; \
-	key-positions = <RIGHT_KEYPOS RIT>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_ro_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <OUTER_BINDINGS>; \
-	key-positions = <RIGHT_KEYPOS ROT>; \
-	layers = <COMBO_LAYERS>; \
-}; \
-combo_rb_##NAME { \
-	timeout-ms = <COMBO_TIMEOUT>; \
-	bindings = <BOTH_BINDINGS>; \
-	key-positions = <RIGHT_KEYPOS RIT ROT>; \
-	layers = <COMBO_LAYERS>; \
-};
 
 / {
   behaviors {
@@ -133,93 +85,20 @@ combo_rb_##NAME { \
       #binding-cells = <0>;
       bindings = <&macro_tap &bt BT_SEL 3>, <&macro_tap &to DEFAULT>;
     };
+
+    #include "macros.def"
   };
 
   combos {
     compatible = "zmk,combos";
-
-    // ==========================================
-    // GLOBAL COMBOS - NOT DEPENDENT TO ANY LAYER
-
-    #undef COMBO_LAYERS
-    #define COMBO_LAYERS MACOS LINUX
-
-    #define LCS(K) LC(LS(K))
-    #define LKSCR LG(LC(Q))
-    #define HYPER LCS(LA(LGUI))
-
-    TCOMBO(R,      &kp R,         &kp LS(R),      &kp GT,       &kp C_NEXT,      TLP,         TRP)
-    TCOMBO(S,      &kp S,         &kp LS(S),      &kp RBRC,     &kp C_BRI_UP,    TLR,         TRR)
-    TCOMBO(N,      &kp N,         &kp LS(N),      &kp RBKT,     &kp C_BRI_DN,    TLM,         TRM)
-    TCOMBO(I,      &kp I,         &kp LS(I),      &kp RPAR,     &kp C_PP,        TLI,         TRI)
-    TCOMBO(A,      &kp A,         &kp LS(A),      &kp LT,       &kp C_PREV,      BLP,         BRP)
-    TCOMBO(O,      &kp O,         &kp LS(O),      &kp LBRC,     &kp C_VOL_UP,    BLR,         BRR)
-    TCOMBO(T,      &kp T,         &kp LS(T),      &kp LBKT,     &kp C_VOL_DN,    BLM,         BRM)
-    TCOMBO(E,      &kp E,         &kp LS(E),      &kp LPAR,     &kp C_MUTE,      BLI,         BRI)
-    TCOMBO(C,      &kp C,         &kp LS(C),      &kp N1,       &kp F1,          BLR BLI,     BRR BRI)
-    TCOMBO(U,      &kp U,         &kp LS(U),      &kp N2,       &kp F2,          BLR BLM,     BRR BRM)
-    TCOMBO(Q,      &kp Q,         &kp LS(Q),      &kp N3,       &kp F3,          BLP BLM,     BRP BRM)
-    TCOMBO(L,      &kp L,         &kp LS(L),      &kp N4,       &kp F4,          BLP BLR,     BRP BRR)
-    TCOMBO(Y,      &kp Y,         &kp LS(Y),      &kp N5,       &kp F5,          TLM TLI,     TRM TRI)
-    TCOMBO(F,      &kp F,         &kp LS(F),      &kp N6,       &kp F6,          TLR TLI,     TRR TRI)
-    TCOMBO(P,      &kp P,         &kp LS(P),      &kp N7,       &kp F7,          TLR TLM,     TRR TRM)
-    TCOMBO(Z,      &kp Z,         &kp LS(Z),      &kp N8,       &kp F8,          TLP TLM,     TRP TRM)
-    TCOMBO(B,      &kp B,         &kp LS(B),      &kp N9,       &kp F9,          TLP TLR,     TRP TRR)
-    TCOMBO(H,      &kp H,         &kp LS(H),      &kp N0,       &kp F10,         BLM BLI,     BRM BRI)
-    TCOMBO(D,      &kp D,         &kp LS(D),      &kp AT,       &kp F11,         BLP BLI,     BRP BRI)
-    TCOMBO(G,      &kp G,         &kp LS(G),      &kp HASH,     &kp F12,         TLP TLI,     TRP TRI)
-    TCOMBO(W,      &kp W,         &kp LS(W),      &kp AMPS,     &none,           TLI BLP,     TRI BRP)
-    TCOMBO(J,      &kp J,         &kp LS(J),      &kp EQUAL,    &none,           TLM BLP,     TRM BRP)
-    TCOMBO(M,      &kp M,         &kp LS(M),      &kp DOLLAR,   &none,           TLP BLI,     TRP BRI)
-    TCOMBO(QMARK,  &kp QMARK,     &kp EXCL,       &kp CAPS,     &kp LKSCR,       TLI BLM,     TRI BRM)
-    TCOMBO(COMMA,  &kp COMMA,     &kp DOT,        &kp TILDE,    &none,           TLM BLI,     TRM BRI)
-    TCOMBO(SQT,    &kp SQT,       &kp DQT,        &kp GRAVE,    &none,           TLR BLP,     TRR BRP)
-    TCOMBO(SEMI,   &kp SEMI,      &kp COLON,      &none,        &none,           TLP BLR,     TRP BRR)
-    TCOMBO(TAB,    &kp TAB,       &kp DEL,        &none,        &bt BT_CLR,      TLR TLM TLI, TRR TRM TRI)
-    TCOMBO(LSHIFT, &sk LSHIFT,    &kp RIGHT,      &kp END,      &bt_profile_3,   TLP BLP,     TRP BRP)
-    TCOMBO(LALT,   &sk LALT,      &kp UP,         &kp PGUP,     &bt_profile_2,   TLR BLR,     TRR BRR)
-    TCOMBO(LCTRL,  &sk LCTRL,     &kp DOWN,       &kp PGDN,     &bt_profile_1,   TLM BLM,     TRM BRM)
-    TCOMBO(LGUI,   &sk LGUI,      &kp LEFT,       &kp HOME,     &bt_profile_0,   TLI BLI,     TRI BRI)
-    TCOMBO(TGLSFT, &kt LSHIFT,    &none,          &none,        &none,           TLP BLP BLI, TRP BRP BRI)
-    TCOMBO(TGLALT, &kt LALT,      &none,          &none,        &none,           TLR BLR BLP, TRR BRR BRP)
-    TCOMBO(TGLCTL, &kt LCTRL,     &none,          &none,        &bootloader,     TLM BLM BLP, TRM BRM BRP)
-    TCOMBO(TGLGUI, &kt LGUI,      &none,          &none,        &sys_reset,      TLI BLI BLP, TRI BRI BRP)
-    TCOMBO(DMREC0, &dm DM_PLY 0,  &dm DM_REC 0,   &dm DM_STP 0, &none,           TLP TLR TLM TLI, TRP TRR TRM TRI)
-    TCOMBO(DMREC1, &dm DM_PLY 1,  &dm DM_REC 1,   &dm DM_STP 1, &none,           BLP BLR BLM BLI, BRP BRR BRM BRI)
-
-    #undef COMBO_LAYERS
-    #define COMBO_LAYERS 0 1 2 3 4
-    TCOMBO(ENTER,  &kp ENTER,     &kp ESC,        &sk HYPER,    &none,           BLR BLM BLI, BRR BRM BRI)
-
-    // =====================================
-    // OS-DEPENDENT HANDLING OF SPECIAL KEYS
-    // Allow combos of OS-specific shortucts
-
-    // Add the layer to the combo name to avoid duplicate names
-    #define LCOMBO(LAYER, NAME, ...) TCOMBO(LAYER##_##NAME, __VA_ARGS__)
-
-    #undef COMBO_LAYERS
-    #define COMBO_LAYERS MACOS
-
-    LCOMBO(MACOS, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LG(LS(Z)),   TLR BLM,     TRR BRM)
-    LCOMBO(MACOS, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LG(Z),       TLM BLR,     TRM BRR)
-    LCOMBO(MACOS, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LG(X),       TLP BLM,     TRP BRM)
-    LCOMBO(MACOS, K,      &kp K,         &kp LS(K),      &kp PLUS,     &kp LG(C),       TLI BLR,     TRI BRR)
-    LCOMBO(MACOS, V,      &kp V,         &kp LS(V),      &kp STAR,     &kp LG(V),       TLR BLI,     TRR BRI)
-
-    #undef COMBO_LAYERS
-    #define COMBO_LAYERS LINUX
-    LCOMBO(LINUX, SLASH,  &kp SLASH,     &kp BSLH,       &kp PIPE,     &kp LC(LS(Z)),   TLR BLM,     TRR BRM)
-    LCOMBO(LINUX, MINUS,  &kp MINUS,     &kp UNDER,      &kp PRCNT,    &kp LC(Z),       TLM BLR,     TRM BRR)
-    LCOMBO(LINUX, X,      &kp X,         &kp LS(X),      &kp CARET,    &kp LC(X),       TLP BLM,     TRP BRM)
-    LCOMBO(LINUX, K,      &kp K,         &kp LS(K),      &kp PLUS,     &kp LC(C),       TLI BLR,     TRI BRR)
-    LCOMBO(LINUX, V,      &kp V,         &kp LS(V),      &kp STAR,     &kp LC(V),       TLR BLI,     TRR BRI)
+    #include "combos.def"
+    #include "chords.def"
   };
 
   keymap {
     compatible = "zmk,keymap";
 
-    #define HYPR(K) LCS(LA(LG(K)))
+    #define HYPR(K) LA(LG(K))
     #define IT(LAYER) &ht LAYER BSPC
     #define OT(LAYER) &ht LAYER SPACE
 

@@ -1,0 +1,69 @@
+#define CHORD(NAME, BINDINGS, KEYPOS) \
+	chord_##NAME { \
+		timeout-ms = <CHORD_TIMEOUT>; \
+		bindings = <BINDINGS>; \
+		key-positions = <KEYPOS>; \
+		layers = <CHORD_LAYERS>; \
+	};
+
+#define MCHORD(NAME, MACRO, KEYPOS) \
+	CHORD(l_##NAME, &macro__##MACRO, KEYPOS) \
+	CHORD(ls_##NAME, &macro__S_##MACRO, LOT KEYPOS) \
+	CHORD(rs_##NAME, &macro__S_##MACRO, ROT KEYPOS)
+
+
+// =========================================
+// MACRO CHORDS - SENDS STRINGS ON EXECUTION
+
+#undef CHORD_LAYERS
+#define CHORD_LAYERS BASE
+
+MCHORD(AD,   AND,      BLP       BRI BRP)
+MCHORD(DT,   DONT,     BLP BLI   BRM)
+MCHORD(EY,   EVERY,    BLI       TRI TRM)
+MCHORD(FR,   FOR,      TLR TLI   TRP)
+MCHORD(HV,   HAVE,     BLM BLI   BRI TRR)
+MCHORD(HR,   HERE,     BLM BLI   TRP)
+MCHORD(IG,   ING,      TLI       TRI TRP)
+MCHORD(IH,   INTHE,    BLI       BRI BRM)
+MCHORD(IO,   ION,      TLI       BRR)
+MCHORD(SIO,  IONS,     TLR TLI   BRR)
+MCHORD(BD,   BOARD,    TLP TLR   BRI BRP)
+MCHORD(KE,   KEY,      BLR TLI   BRI)
+MCHORD(MT,   MENT,     TLP BLI   BRM)
+MCHORD(OU,   OUGH,     BLR       BRM BRR)
+MCHORD(OL,   OULD,     BLR       BRR BRP)
+MCHORD(QU,   QUE,      BLP BLM   BRM BRR)
+MCHORD(TE,   THE,      BLM       BRI)
+MCHORD(TS,   THIS,     BLM       TRR)
+MCHORD(TA,   THAT,     BLM       BRP)
+MCHORD(YU,   YOU,      TLM TLI   BRM BRR)
+MCHORD(WI,   WITH,     BLP TLI   TRI)
+MCHORD(WA,   WHAT,     BLP TLI   BRP)
+
+// ==================
+// BASE LAYER CHORDS
+
+#undef CHORD_LAYERS
+#define CHORD_LAYERS BASE
+
+CHORD(CAPSWORD, &caps_word, LOT ROT)
+
+
+// ==================
+// MACOS LAYER CHORDS
+
+#undef CHORD_LAYERS
+#define CHORD_LAYERS MACOS
+
+CHORD(CMDBSPC, &kp LG(BSPC), LIT RIT)
+
+
+// ==================
+// LINUX LAYER CHORDS
+
+#undef CHORD_LAYERS
+#define CHORD_LAYERS LINUX
+
+CHORD(CTLBSPC, &kp LC(BSPC), LIT RIT)
+
