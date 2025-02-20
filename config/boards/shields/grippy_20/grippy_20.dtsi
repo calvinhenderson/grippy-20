@@ -40,7 +40,14 @@
   };
 
   vbatt: vbatt {
-	  compatible = "zmk,battery-nrf-vddh";
+	  // compatible = "zmk,battery-nrf-vddh";
+	  status = "okay";
+	  compatible = "zmk,battery-voltage-divider";
+	  label = "XIAO voltage divider";
+	  io-channels = <&adc 7>;
+	  output-ohms = <470000>;
+	  full-ohms =  <1470000>;
+	  power-gpios = <&gpio0 14 (GPIO_ACTIVE_LOW)>;
 	};
 };
 
