@@ -20,7 +20,7 @@
 include:
   - board: seeeduino_xiao_ble
     shield: grippy_20_left
-  - board: seeeduino_xiao_ble
+  - board: xiao_esp32c3
     shield: grippy_20_right
   - board: seeeduino_xiao_ble
     shield: settings_reset

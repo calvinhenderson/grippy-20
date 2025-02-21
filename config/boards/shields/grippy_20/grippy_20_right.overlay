@@ -1,5 +1,16 @@
 #include "grippy_20.dtsi"
 
+&vbatt {
+	// compatible = "zmk,battery-nrf-vddh";
+	status = "okay";
+	compatible = "zmk,battery-voltage-divider";
+	label = "XIAO voltage divider";
+	io-channels = <&adc0 7>;
+	output-ohms = <470000>;
+	full-ohms =  <1470000>;
+	power-gpios = <&gpio0 14 (GPIO_ACTIVE_LOW)>;
+};
+
 &default_transform { // Offset of 4 because the left side has 4 columns
   col-offset = <4>;
 };

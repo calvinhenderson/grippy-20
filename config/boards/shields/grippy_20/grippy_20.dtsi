@@ -50,7 +50,3 @@
 	  power-gpios = <&gpio0 14 (GPIO_ACTIVE_LOW)>;
 	};
 };
-
-&usbd {
-	status = "okay";
-};
